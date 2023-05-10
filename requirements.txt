@@ -1,0 +1,4 @@
+Pillow==9.5.0
+pycryptodome==3.17
+customtkinter==5.1.2
+googlesearch-python==1.2.3
