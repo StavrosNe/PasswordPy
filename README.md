@@ -30,7 +30,7 @@ This is a small password manager application that I created as a hobby project t
 2. Log in to your account using your username and password.
 3. Enter a strong encryption key to protect your data.
 4. Add new passwords by entering the application name, username, and password.
-5. Connect to websites through the app by entering the website URL and clicking "Connect".
+5. Connect to websites through the app by entering the website name and clicking "Connect".
 
 ## Security
 
