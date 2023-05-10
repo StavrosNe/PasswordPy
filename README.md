@@ -1,6 +1,6 @@
 # Password Manager Application
 
-This is a small password manager application that I created as a hobby project to learn new things using Python. The application allows users to store and manage their passwords securely using encryption and hashing.
+This is a small password manager application that I created as a hobby project to learn new things using Python. The application allows users to store and manage their passwords securely using encryption.
 
 ## Features
 
