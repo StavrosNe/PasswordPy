@@ -1,5 +1,5 @@
 # PyPass
-This a small password manager application that I created as hobby project to learn new things using python.
+#This a small password manager application that I created as hobby project to learn new things using python.
 The user has to sign up first and then can login to the app.
 After the user is loged in, the user is promted to enter an encryption key. 
 Using this key the app can encrypt the users data for example:
