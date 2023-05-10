@@ -1,5 +1,3 @@
-Sure! Here's the same text formatted using Markdown:
-
 # Password Manager Application
 
 This is a small password manager application that I created as a hobby project to learn new things using Python. The application allows users to store and manage their passwords securely using encryption and hashing.
@@ -40,16 +38,7 @@ This is a small password manager application that I created as a hobby project t
 - Data is encrypted using AES 256 CBC and unique IV for each data entry.
 - The encryption key is not stored anywhere and must be entered by the user.
 - Passwords and encryption keys must meet strong requirements for length and complexity.
+- Encryption key: At least 12 characters long must contain caps,numbers,special characters and no spaces.
+- Password : At least 8 characters long must contain caps,numbers,special characters and no spaces.
 
-## Limitations
 
-- The number of passwords that can be stored is limited by the local database size.
-- Some websites may not be compatible with the app's website connection feature.
-
-## Future Work
-
-In the future, I plan to add the following features:
-
-- Two-factor authentication for added security
-- Automatic password generation using a secure algorithm
-- Integration with popular web browsers for easier website connection
