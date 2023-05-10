@@ -44,6 +44,9 @@ This is a small password manager application that I created as a hobby project t
 ## Disclaimer
 This application is provided for educational and informational purposes only. 
 The developer is not responsible for any loss or damage that may result from the use of this application. 
-It is the responsibility of the user to ensure that all passwords and other sensitive information are kept secure and that best practices for password management are followed. The developer does not guarantee the security of any data stored or transmitted by this application. Use this application at your own risk.
+It is the responsibility of the user to ensure that all passwords and other sensitive information are kept 
+secure and that best practices for password management are followed. The developer 
+does not guarantee the security of any data stored or transmitted by this application. 
+Use this application at your own risk.
 
 
