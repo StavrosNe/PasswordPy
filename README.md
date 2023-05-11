@@ -50,6 +50,7 @@ does not guarantee the security of any data stored or transmitted by this applic
 Use this application at your own risk.
 
 ## Images
+![Sign up](https://github.com/StavrosNe/PyPass/blob/main/documentation%20images/image1.PNG)
 
 
 
