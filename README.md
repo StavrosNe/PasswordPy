@@ -51,6 +51,12 @@ Use this application at your own risk.
 
 ## Images
 ![Sign up](https://github.com/StavrosNe/PyPass/blob/main/documentation%20images/image1.PNG)
+![Successful registration](https://github.com/StavrosNe/PyPass/blob/main/documentation%20images/image2.PNG)
+![Successful registration](https://github.com/StavrosNe/PyPass/blob/main/documentation%20images/image3.PNG)
+![Successful registration](https://github.com/StavrosNe/PyPass/blob/main/documentation%20images/image4.PNG)
+![Successful registration](https://github.com/StavrosNe/PyPass/blob/main/documentation%20images/image5.PNG)
+![Successful registration](https://github.com/StavrosNe/PyPass/blob/main/documentation%20images/image6.PNG)
+![Successful registration](https://github.com/StavrosNe/PyPass/blob/main/documentation%20images/image7.PNG)
 
 
 
