@@ -59,4 +59,3 @@ Use this application at your own risk.
 ![Successful registration](https://github.com/StavrosNe/PyPass/blob/main/documentation%20images/image7.PNG)
 
 
-
