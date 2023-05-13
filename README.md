@@ -51,10 +51,10 @@ does not guarantee the security of any data stored or transmitted by this applic
 Use this application at your own risk.
 
 ## Images
-![Successful registration](https://github.com/StavrosNe/PasswordPy/blob/main/documentation%20images/image1.PNG)
-![Successful registration](https://github.com/StavrosNe/PasswordPy/blob/main/documentation%20images/image2.PNG)
-![Successful registration](https://github.com/StavrosNe/PasswordPy/blob/main/documentation%20images/image3.PNG)
-![Successful registration](https://github.com/StavrosNe/PasswordPy/blob/main/documentation%20images/image4.PNG)
-![Successful registration](https://github.com/StavrosNe/PasswordPy/blob/main/documentation%20images/image5.PNG)
+![Successful registration](https://github.com/StavrosNe/PasswordPy/blob/master/documentation%20images/image1.PNG)
+![Successful registration](https://github.com/StavrosNe/PasswordPy/blob/master/documentation%20images/image2.PNG)
+![Successful registration](https://github.com/StavrosNe/PasswordPy/blob/master/documentation%20images/image3.PNG)
+![Successful registration](https://github.com/StavrosNe/PasswordPy/blob/master/documentation%20images/image4.PNG)
+![Successful registration](https://github.com/StavrosNe/PasswordPy/blob/master/documentation%20images/image5.PNG)
 
 
