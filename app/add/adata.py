@@ -1,5 +1,6 @@
 import customtkinter as ctk
 
+
 class AddData(ctk.CTkFrame):
 
     def __init__(self,
@@ -70,7 +71,7 @@ class AddData(ctk.CTkFrame):
         self.message.place(anchor='n',relx = 0.5,rely = 0.9)
 
 
-    def reset(self):
+    def reset_entries(self):
         w1 = self.application_entry.get()
         self.application_entry.delete(0,(len(w1)))
 
@@ -83,7 +84,7 @@ class AddData(ctk.CTkFrame):
         w4 = self.email_entry.get()
         self.email_entry.delete(0,(len(w4)))
 
-    def reset2(self):
+    def switch_frame(self):
         self.message.configure(text='')
 
     

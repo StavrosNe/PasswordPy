@@ -1,5 +1,4 @@
 import customtkinter as ctk
-from dbops import ChangeEncryption
 from dbops import ChangePassword
 import re
 import os
@@ -16,15 +15,13 @@ class Passframe(ctk.CTkFrame):
         self.username = username
 
         self.configure(fg_color ="transparent")
-
         project_directory = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-        db_filepath1 = os.path.join(project_directory,"databases","unp.db")
-        self.usersdb = str(db_filepath1)
 
-        db_filepath2 = os.path.join(project_directory,"databases","applications.db")
-        self.appsdb = str(db_filepath2)
-        
+        db_filepath = os.path.join(project_directory,"databases","unp.db")
+        self.usersdb = str(db_filepath)
+
+        # create widgets
         self.titlelabel =  ctk.CTkLabel(master=self,width =300,
                                         height=60,
                                         font=("Roboto",22),
@@ -73,6 +70,7 @@ class Passframe(ctk.CTkFrame):
                                            font=("Roboto",14),
                                            text = '')
 
+        # place widgets
         self.titlelabel.place(relx = 0.5 , rely = 0, anchor='n' )
         self.label1.place(relx = 0.5 , rely = 0.14, anchor='n')
         self.oldpasswordentry.place(relx = 0.5 , rely = 0.2, anchor='n' )

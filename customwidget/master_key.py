@@ -5,20 +5,26 @@ from PIL import Image
 
 
 class MasterKey(ctk.CTkFrame):
+    """
+    ctkFrame that has
+    the widgets and methods needed
+    for the encrytion key
+    """
     def __init__(self,master,width,height,entrywidth):
         super().__init__(master=master,width=width,height=height,
                          corner_radius=20)
 
         project_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        key_filepath = os.path.join(project_directory, "assets","key.png")
+        # import images
+        key_filepath = os.path.join(project_directory, "images","key.png")
         key_img = Image.open(key_filepath)
         key = ctk.CTkImage(key_img,size=(30, 30))
 
-        
-        show_filepath = os.path.join(project_directory, "assets","show.png")
+        show_filepath = os.path.join(project_directory, "images","show.png")
         show_img = Image.open(show_filepath)
         show = ctk.CTkImage(show_img,size=(30, 30))
         
+        # create widgets
         self.entrywidth = entrywidth
 
         self.key_entry = ctk.CTkEntry(master=self,width = self.entrywidth,
@@ -41,7 +47,7 @@ class MasterKey(ctk.CTkFrame):
                                      corner_radius=30,
                                      text = '')
                                 
-
+        # place widgets
         self.key_entry.place(rely = 0.5, relx=0.5 ,anchor = 'center')
         self.key_btn.place(rely = 0.5, relx=0.1 ,anchor = 'w')
         self.show_btn.place(rely = 0.5, relx=0.9 ,anchor = 'e')

@@ -19,28 +19,26 @@ class RegisterWin(ctk.CTk):
         self.title('Sign up')
 
         project_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.database = db_filepath
-
-
-        show_filepath = os.path.join(project_directory, "assets","show.png")
-       # Create an image object
+        # import images
+        show_filepath = os.path.join(project_directory, "images","show.png")
         show_img = Image.open(show_filepath)
-        # Convert the image object to a customtkinter-compatible object
         show = ctk.CTkImage(show_img,size=(30, 30))
 
-        bg_img_filepath = os.path.join(project_directory, "assets","rt5.jpg")
+        bg_img_filepath = os.path.join(project_directory, "images","rt5.jpg")
         bg_img = Image.open(bg_img_filepath)
         w  = 1280
         h = 720
         background = ctk.CTkImage(bg_img,size=(w*0.6, h))
 
-        arrow_filepath = os.path.join(project_directory, "assets","arrow.png")
+        arrow_filepath = os.path.join(project_directory, "images","arrow.png")
         arrow_img = Image.open(arrow_filepath)
         self.arrow = ctk.CTkImage(arrow_img,size=(30, 30))
 
         # create database object to abstract database operations
+        self.database = db_filepath
         self.db = UsersDb(database = self.database)
 
+        # create widgets
         self.label = ctk.CTkLabel(master = self,image = background,text='')
 
         self.frame = ctk.CTkFrame(master = self, width=450, 
@@ -102,6 +100,7 @@ class RegisterWin(ctk.CTk):
                                         text = '', 
                                         font=("Roboto",18))
         
+        # place widgets
         self.label.place(relx = 0 , rely = 0 , anchor = 'nw')
         
         self.frame.place(relx=0.8 ,rely=0.5 ,anchor='center')
@@ -124,9 +123,9 @@ class RegisterWin(ctk.CTk):
 
         self.usernamemessage.place(anchor = 'n' , relx = 0.5 , rely = 0.14)
 
+        # bind show button to either show or hide password
         self.show_btn.bind('<ButtonPress-1>',self.show)
         self.show_btn.bind('<ButtonRelease-1>',self.hide)
-
 
     def show(self,event):
         self.password_entry.configure(show='')
@@ -134,7 +133,6 @@ class RegisterWin(ctk.CTk):
     def hide(self,event):
         self.password_entry.configure(show='*')  
 
-    
     def password_strength(self,password):
         capital_letter_regex = r'[A-Z]'
         number_regex = r'\d'
@@ -152,57 +150,50 @@ class RegisterWin(ctk.CTk):
             return True
         else:
             return False
-
-    def validate(self,username,password,password_rep,email):
-
-        def validate_email(email):
-            pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-            if re.match(pattern, email) is not None:
+        
+    def validate_email(self,email):
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if re.match(pattern, email) is not None:
+            return True
+        else:
+            return False 
+            
+    def username_taken(self,username):
+        usernames = self.db.fetch_usernames()
+        if usernames is None:
+            return False
+        else:
+            if username in usernames:
                 return True
             else:
-                return False 
+                return False
 
-        usernames = self.db.fetch_usernames()
-
+    def validate(self,username,password,password_rep,email):
+        
         username_valid = True
         password_valid = True
         email_valid  = True
         passwords_match = True
-        
-        if usernames is not None:
-            if username in usernames:
-                username_valid = False
-
+        # check if username is taken
+        if self.username_taken(username):
+            username_valid = False
+        # check if password matches requirements
         if not self.password_strength(password):
              password_valid = False
-        elif password == username:
+        # check if password equals username
+        if password == username:
             password_valid = False
-        
+        # check if password and password repeated match
         if password!=password_rep:
             passwords_match = False
-        
-        if not validate_email(email):
+        # check if email is valid
+        if not self.validate_email(email):
             email_valid = False
 
-        def eval(password_valid,email_valid,
-                 passwords_match,username_valid):
-            if password_valid == False:
-                return False
-            elif username_valid == False:
-                return False
-            elif passwords_match == False:
-                return False
-            elif email_valid == False:
-                return False
-            return True
-        
-        isvalid = eval(password_valid,email_valid,
-                       passwords_match,username_valid)
-
+        # apply changes to widgets
         if username_valid == False:
             string = '*username already in use'
             self.usernamemessage.configure(text = string)
-
         if email_valid == False:
             string = '*invalid email'
             self.emailerror(string)
@@ -227,6 +218,21 @@ class RegisterWin(ctk.CTk):
             string1 = '*passwords dont match and weak password'
             string2 = '*invalid email'
             self.doublerror(string1,string2)
+
+        def eval(password_valid,email_valid,
+                passwords_match,username_valid):
+            if password_valid == False:
+                return False
+            elif username_valid == False:
+                return False
+            elif passwords_match == False:
+                return False
+            elif email_valid == False:
+                return False
+            return True
+        
+        isvalid = eval(password_valid,email_valid,
+                       passwords_match,username_valid)
         
         return isvalid
 
@@ -237,29 +243,26 @@ class RegisterWin(ctk.CTk):
         self.password_rep = self.password_entry_rep.get()
         self.email = self.email_entry.get()
 
-
-        def check_len():
+        def entries_filled():
             len1 = len(self.username)
             len2 = len(self.password)
             len3 = len(self.password_rep)
             len4 = len(self.email)
-
             if len1>=1 and len2>=1 and len3>=1 and len4>=1:
                 return True
             else:
                 return False
-
-        check = check_len()
+            
+        # check if all entries have been filled
+        check = entries_filled()
         try:
             assert check==True
             isvalid = self.validate(self.username,self.password,
                                     self.password_rep,self.email)
-                
             try:
                 assert isvalid == True
                 self.db.add_user(self.username,self.password,self.email)
-                self.reset()
-
+                self.reset_entries()
             except AssertionError:
                 self.message.configure(text = 'Unable to register user')
 
@@ -268,6 +271,7 @@ class RegisterWin(ctk.CTk):
 
     
     def passworderror(self,string):
+        self.usernamemessage.configure(text = '')
         self.emailmessage.configure(text = '')
         self.passwordmessage.configure(text = '')
         self.passwordmessage.configure(text = string)
@@ -289,6 +293,7 @@ class RegisterWin(ctk.CTk):
         self.message.place(anchor = 'n' , relx = 0.5 , rely = 0.85)
 
     def emailerror(self,string):
+        self.usernamemessage.configure(text = '')
         self.emailmessage.configure(text = '')
         self.passwordmessage.configure(text = '')
         self.emailmessage.configure(text = string)
@@ -312,6 +317,7 @@ class RegisterWin(ctk.CTk):
         self.message.place(anchor = 'n' , relx = 0.5 , rely = 0.85)
 
     def doublerror(self,string1,string2):
+        self.usernamemessage.configure(text = '')
         self.emailmessage.configure(text = '')
         self.passwordmessage.configure(text = '')
         self.passwordmessage.configure(text = string1)
@@ -338,12 +344,14 @@ class RegisterWin(ctk.CTk):
         self.message.place(anchor = 'n' , relx = 0.5 , rely = 0.9)
 
 
-    def reset(self):
+    def reset_entries(self):
         self.message.configure(text = 'User registered')
         self.emailmessage.configure(text = '')
         self.passwordmessage.configure(text = '')
+        self.usernamemessage.configure(text = '')
         self.emailmessage.place_forget()
         self.passwordmessage.place_forget()
+        self.usernamemessage.place_forget()
         
         self.submit_btn.configure(text = 'Continue',
                                   image = self.arrow,
@@ -371,24 +379,17 @@ class RegisterWin(ctk.CTk):
             #getting screen width and height of display
             ws= app.winfo_screenwidth()
             hs= app.winfo_screenheight()
-            
             # width and height of app
             w = 1280
             h = 720
-            
             # coordiantes on where the app opens
             x = (ws/2) - (w/2)
             y  = (hs/2) - (h/2)
-            
             #setting tkinter window size
             app.geometry('%dx%d+%d+%d' % (w,h,x,y))
-            
             app.maxsize(1280, 720)
-
             app.resizable(False, False) 
-            
             app.mainloop()
-        
         self.destroy()
         main()
         

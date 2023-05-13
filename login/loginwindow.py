@@ -20,29 +20,28 @@ class LoginWin(ctk.CTk):
         self.title('Log in')
         
         project_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
         #database
         db_filepath = os.path.join(project_directory,"databases","unp.db")
         self.database = str(db_filepath)
+        # create database object to abstract database operations
+        self.db = UsersDb(database = self.database)
 
-        show_filepath = os.path.join(project_directory, "assets","show.png")
+        # import images
+        show_filepath = os.path.join(project_directory, "images","show.png")
         show_img = Image.open(show_filepath)
         show = ctk.CTkImage(show_img,size=(30, 30))
 
-        bg_img_filepath = os.path.join(project_directory, "assets","rt5.jpg")
-
+        bg_img_filepath = os.path.join(project_directory, "images","rt5.jpg")
         bg_img = Image.open(bg_img_filepath)
         w  = 1280
         h = 720
         background = ctk.CTkImage(bg_img,size=(w*0.6, h))
 
-        arrow_filepath = os.path.join(project_directory, "assets","arrow.png")
+        arrow_filepath = os.path.join(project_directory, "images","arrow.png")
         arrow_img = Image.open(arrow_filepath)
         self.arrow = ctk.CTkImage(arrow_img,size=(30, 30))
 
-        # create database object to abstract database operations
-        self.db = UsersDb(database = self.database)
-
+        # create widgets
         self.label = ctk.CTkLabel(master = self,image = background,text='')
 
         self.frame = ctk.CTkFrame(master = self, width=450, 
@@ -104,6 +103,7 @@ class LoginWin(ctk.CTk):
                                         text = '', 
                                         font=("Roboto",14))
         
+        # place widgets
         self.label.place(relx = 0 , rely = 0 , anchor = 'nw')
         
         self.frame.place(relx=0.8 ,rely=0.5 ,anchor='center')
@@ -126,6 +126,7 @@ class LoginWin(ctk.CTk):
 
         self.show_btn.place(anchor = 'n' , relx = 0.9 , rely = 0.38)
 
+        # bind show button to either show or hide password
         self.show_btn.bind('<ButtonPress-1>',self.show)
         self.show_btn.bind('<ButtonRelease-1>',self.hide)
 
@@ -167,8 +168,7 @@ class LoginWin(ctk.CTk):
                     correct_password = False
                 else:
                     self.message.configure(text = 'Successful authentication')
-                    self.reset()
-
+                    self.reset_entries()
 
         def eval(correct_password,correct_username,
                  empty_database):
@@ -188,7 +188,7 @@ class LoginWin(ctk.CTk):
         self.username = self.username_entry.get()
         self.password = self.password_entry.get()
 
-        def check_len():
+        def entries_filled():
             len1 = len(self.username)
             len2 = len(self.password)
 
@@ -197,7 +197,7 @@ class LoginWin(ctk.CTk):
             else:
                 return False
             
-        check = check_len()
+        check = entries_filled()
         try:
             assert check == True
             try:
@@ -212,15 +212,16 @@ class LoginWin(ctk.CTk):
 
 
     def change_pass(self):
+        '''havent made password recovey yet'''
         pass
 
-    def reset(self):
+    def reset_entries(self):
         self.password_entry.place(anchor = 'n',relx = 0.5,rely = 0.38)
         self.forgot_password.place(anchor = 'n',relx = 0.32,rely = 0.48)
         self.show_btn.place(anchor = 'n' , relx = 0.9 , rely = 0.38)
         self.passwordmessage.configure(text = '')
-        self.passwordmessage.place_forget()
         self.usernamemessage.configure(text = '')
+        self.passwordmessage.place_forget()
         self.usernamemessage.place_forget()
         self.login_btn.configure(text = 'Continue',
                                  image = self.arrow,
@@ -235,22 +236,16 @@ class LoginWin(ctk.CTk):
             #getting screen width and height of display
             ws= app.winfo_screenwidth()
             hs= app.winfo_screenheight()
-            
             # width and height of app
             w = 1280
             h = 720
-            
             # coordiantes on where the app opens
             x = (ws/2) - (w/2)
             y  = (hs/2) - (h/2)
-            
             #setting tkinter window size
             app.geometry('%dx%d+%d+%d' % (w,h,x,y))
-            
             app.maxsize(1280, 720)
-
             app.resizable(False, False) 
-
             app.mainloop()
     
         self.destroy()
@@ -263,22 +258,16 @@ class LoginWin(ctk.CTk):
             #getting screen width and height of display
             ws= app.winfo_screenwidth()
             hs= app.winfo_screenheight()
-            
             # width and height of app
             w = 1280
             h = 720
-            
             # coordiantes on where the app opens
             x = (ws/2) - (w/2)
             y  = (hs/2) - (h/2)
-            
             #setting tkinter window size
             app.geometry('%dx%d+%d+%d' % (w,h,x,y))
-            
             app.maxsize(1280, 720)
-
             app.resizable(False, False) 
-        
             app.mainloop()
     
         self.destroy()

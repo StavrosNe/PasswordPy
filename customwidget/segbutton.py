@@ -2,6 +2,9 @@ import customtkinter as ctk
 
 
 class SegButton(ctk.CTkFrame):
+    """
+    A custom segmented button class
+    """
     def __init__(self, ratio1: int , ratio2: int , text1:str,text2:str,
                  master: any, width: int = 300, 
                  height: int=40, corner_radius: int=10,
@@ -12,8 +15,6 @@ class SegButton(ctk.CTkFrame):
                          **kwargs)
 
         self.configure(fg_color = 'transparent')
-        #self.configure(border_color = '#251351')
-        #self.configure(border_width = height/20)
 
         self.border = height/6
         

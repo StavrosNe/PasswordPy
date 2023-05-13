@@ -5,6 +5,12 @@ from encryption import SafeDecrypt
 from encryption import GenIv
 
 class ApplicationsDb():
+    """
+    this class has all the
+    functionality related to
+    the database that has
+    the app data for every user
+    """
     def __init__(self,database:str,username:str,key:str) -> None:
         self.database = database
         self.key = key
@@ -114,7 +120,7 @@ class ApplicationsDb():
 
 
     def fetch_appnames(self):
-
+        
         def fetch(conn):
             cursor = conn.cursor()
             
@@ -148,7 +154,6 @@ class ApplicationsDb():
             conn.close()
         
 
-        
     def delete_app(self,application):
         
         def create_connection():

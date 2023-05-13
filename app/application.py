@@ -3,10 +3,9 @@ import os
 from PIL import Image
 from app.add import AddData
 from app.query import QuerryData
-from dbops import ApplicationsDb
 from admin import ManageUser
-from app.delete import DeleteApp
 from customwidget import MasterKey
+from dbops import ApplicationsDb
 
 class Application(ctk.CTk):
     def __init__(self,username,password):
@@ -30,25 +29,24 @@ class Application(ctk.CTk):
         db_filepath = os.path.join(project_directory,"databases","applications.db")
         self.database = str(db_filepath)
 
-        # images
-        trash_filepath = os.path.join(project_directory, "assets","trash.png")
+        # import images
+        trash_filepath = os.path.join(project_directory, "images","trash.png")
         trash_img = Image.open(trash_filepath)
         trash = ctk.CTkImage(trash_img,size=(30, 30))
 
-        users_filepath = os.path.join(project_directory, "assets","user.png")
+        users_filepath = os.path.join(project_directory, "images","user.png")
         users_img = Image.open(users_filepath)
         user = ctk.CTkImage(users_img,size=(30, 30))
 
-        add_filepath = os.path.join(project_directory, "assets","plus.png")
+        add_filepath = os.path.join(project_directory, "images","plus.png")
         add_img = Image.open(add_filepath)
         add = ctk.CTkImage(add_img,size=(30, 30))
 
-        query_filepath = os.path.join(project_directory, "assets","loupe.png")
+        query_filepath = os.path.join(project_directory, "images","loupe.png")
         query_img = Image.open(query_filepath)
         query = ctk.CTkImage(query_img,size=(30, 30))
 
-
-        key_filepath = os.path.join(project_directory, "assets","key.png")
+        key_filepath = os.path.join(project_directory, "images","key.png")
         key_img = Image.open(key_filepath)
         key = ctk.CTkImage(key_img,size=(30, 30))
 
@@ -58,6 +56,7 @@ class Application(ctk.CTk):
 
         greetmsg = 'user : '+self.username
 
+        # create widgets
         self.frame = ctk.CTkFrame(master = self,
                                   width=1180,height=720,
                                   fg_color ="#0D0D0D",
@@ -72,8 +71,9 @@ class Application(ctk.CTk):
                                         font=("Helvetica",20,'bold'))
         
         self.keyframe = MasterKey(master = self.frame,width = 500 , 
-                                  height = 60 , entrywidth = 200)
-        
+                                  height = 60 , entrywidth = 200)    
+        self.keyframe.key_btn.configure(command=self.key_command)
+    
         self.delete_app_btn = ctk.CTkButton(master=self.frameutils,text='',
                                             width=60,height=60,
                                             corner_radius=60,
@@ -83,7 +83,6 @@ class Application(ctk.CTk):
                                             hover_color='#505050',
                                             state='disabled')
                                             
-        
         self.manage_btn = ctk.CTkButton(master=self.frameutils,text='',
                                     width=60,height=60,
                                     corner_radius=60,
@@ -95,7 +94,7 @@ class Application(ctk.CTk):
         self.add_btn = ctk.CTkButton(master=self.frameutils,text='',
                                     width=60,height=60,
                                     corner_radius=60,
-                                    command=self.show_add_frame,
+                                    command=self.show_addframe,
                                     image=add,
                                     fg_color='transparent',
                                     hover_color='#505050',
@@ -104,7 +103,7 @@ class Application(ctk.CTk):
         self.query_btn = ctk.CTkButton(master=self.frameutils,text='',
                                     width=60,height=60,
                                     corner_radius=60,
-                                    command=self.show_query_frame,
+                                    command=self.show_queryframe,
                                     image=query,
                                     fg_color='transparent',
                                     hover_color='#505050',
@@ -127,36 +126,24 @@ class Application(ctk.CTk):
         self.segbutton.button1.configure(command = self.query_app)
         self.segbutton.button2.configure(command = self.show_names)
         
+        # place widgets
         self.greetlabel.place(anchor = 'nw' , relx = 0.012 , rely = 0.02)
-
         self.frame.place(relx = 1 , rely = 0 , anchor = 'ne')
-
         self.keyframe.place(anchor = 's' , relx = 0.5 , rely = 0.1)
-
         self.frameutils.place(relx = 0 , rely = 0 , anchor = 'nw')
-
         self.manage_btn.place(relx = 0.5 , rely = 0.005 , anchor = 'n')
-
         self.add_btn.place(relx=0.5 ,rely = 0.14 ,anchor='n')
-
         self.query_btn.place(relx=0.5 ,rely = 0.28 ,anchor='n')
-
         self.key_btn.place(relx=0.5 ,rely = 0.42 ,anchor='n')
-
         self.delete_app_btn.place(relx=0.5 ,rely = 0.56 ,anchor='n')
-
         self.start1 = 0
-
         self.start2 = 0
     
-        self.keyframe.key_btn.configure(command=self.key_command)
 
     def key_command(self):
         def insert_key():
-            entered = self.keyframe.key_entry.get()
-
+            entered = self.keyframe.get_key()
             valid_key = self.keyframe.strong_key(entered)
-
             if valid_key  == True:
                 self.key_btn.configure(state='normal')
                 self.add_btn.configure(state='normal')
@@ -166,6 +153,7 @@ class Application(ctk.CTk):
                 return True
             elif valid_key  == False:
                 return False
+            
         def hide_key():
             self.start2 = 0
             y = self.start1
@@ -192,9 +180,10 @@ class Application(ctk.CTk):
             self.start2 = y
             self.after(10,self.show_key)
         
-    def show_query_frame(self):
+    def show_queryframe(self):
         self.queryframe.place(relx=0.5 ,rely = 0.15 , anchor = 'n')
         try:
+            self.addframe.switch_frame()
             self.addframe.place_forget()
         except:
             pass
@@ -202,11 +191,11 @@ class Application(ctk.CTk):
             self.hide_names2()
         except:
             pass
-        self.addframe.reset2()
 
-    def show_add_frame(self):
+    def show_addframe(self):
         self.addframe.place(relx=0.5 ,rely = 0.15 , anchor = 'n')
         try:
+            self.queryframe.switch_frame()
             self.queryframe.place_forget()
         except:
             pass
@@ -214,10 +203,9 @@ class Application(ctk.CTk):
             self.hide_names2()
         except:
             pass
-        self.queryframe.reset2()
 
     def show_names(self):
-        self.update_appbox() # modify textbox with text_box method
+        self.update_appbox() # modify textbox with update_appbox method
         self.textbox.place(relx=0.55 , rely = 0.15 , anchor='nw')
         self.queryframe.place(relx=0.5 ,rely = 0.15 , anchor = 'ne')
         self.segbutton.button2.configure(text='Hide Apps',
@@ -253,12 +241,12 @@ class Application(ctk.CTk):
     
             return height
 
-        decrypted_app_names = self.db.fetch_appnames()
-        if decrypted_app_names is not None:
+        app_names = self.db.fetch_appnames()
+        if app_names is not None:
             self.textbox.configure(state='normal')  
-            height = textbox_height(decrypted_app_names)
+            height = textbox_height(app_names)
             self.textbox.configure(height=height)
-            for app in decrypted_app_names:
+            for app in app_names:
                 self.textbox.insert("0.0", f'{app}\n')
             self.textbox.configure(state='disabled')  
         else:
@@ -269,29 +257,27 @@ class Application(ctk.CTk):
         username = self.addframe.username_entry.get()
         password = self.addframe.password_entry.get()
         email = self.addframe.email_entry.get()
-
-        decrypted_app_names = self.db.fetch_appnames()
+        app_names = self.db.fetch_appnames()
         
         try:
-            validate = self.addframe.validate(decrypted_app_names)
+            validate = self.addframe.validate(app_names)
             assert validate==True
             self.db.add_app(application,username,
                             password,email)
-            self.addframe.reset()
+            self.addframe.reset_entries()
         
         except Exception as error:
             print(error)
 
     def query_app(self):
         application = self.queryframe.application_entry.get()
-        decrypted_app_names = self.db.fetch_appnames()
+        app_names = self.db.fetch_appnames()
+        self.queryframe.reset_entries()
 
         try:           
-            validate = self.queryframe.validate(decrypted_app_names)
+            validate = self.queryframe.validate(app_names)
             assert validate==True
-            self.queryframe.reset()
             decrypted_data = self.db.fetch_app(application)
-
             self.queryframe.username_entry.insert(0,decrypted_data[0])
             self.queryframe.password_entry.insert(0,decrypted_data[1])
             self.queryframe.email_entry.insert(0,decrypted_data[2])
@@ -301,14 +287,13 @@ class Application(ctk.CTk):
 
     def delete_app(self):
         dialog = ctk.CTkInputDialog(text="Enter app to delete:", title="Delete")
-        app = dialog.get_input()  # waits for input
+        app = dialog.get_input() 
         try:
             assert app is not None
             self.db.delete_app(app)
 
         except Exception as error:
             print(error)
-
 
     def manage_account(self):
         def main():
@@ -317,15 +302,12 @@ class Application(ctk.CTk):
             #getting screen width and height of display
             ws= app.winfo_screenwidth()
             hs= app.winfo_screenheight()
-            
             # width and height of app
             w = 500
             h = 500
-            
             # coordiantes on where the app opens
             x = (ws/2) - (w/2)
             y  = (hs/2) - (h/2)
-            
             #setting tkinter window size
             app.geometry('%dx%d+%d+%d' % (w,h,x,y))
             app.mainloop()

@@ -5,6 +5,12 @@ from encryption import create_salt
 from encryption import create_pepper
 
 class UsersDb():
+    """
+    this class has all the
+    functionality related to
+    the database that has
+    the login credentials for every user
+    """
     def __init__(self,database) -> None:
         self.database = database
     
@@ -151,8 +157,6 @@ class UsersDb():
             conn.close()
             return True
             
-        
-    
     def fetch_user(self,username):
 
         def fetch(conn):

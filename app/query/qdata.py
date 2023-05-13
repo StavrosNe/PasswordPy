@@ -3,13 +3,13 @@ from customwidget import SegButton
 import os
 from PIL import Image
 from webops import Website
+import pyperclip
 
 class QuerryData(ctk.CTkFrame):
 
     def __init__(self,
                  master: any,
-                 **kwargs):
-                 
+                 **kwargs):    
         """
         Class that inherits 
         from ctk.CTkFrame
@@ -21,16 +21,18 @@ class QuerryData(ctk.CTkFrame):
                          **kwargs)
         
         ctk.set_default_color_theme("dark-blue")
-        
-        '''
-        self.configure(border_color = '#251351')
-        self.configure(border_width=3)
-        '''
+ 
         project_directory = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        globe_filepath = os.path.join(project_directory, "assets","globe.png")
+        # import images
+        globe_filepath = os.path.join(project_directory, "images","globe.png")
         globe_img = Image.open(globe_filepath)
         globe = ctk.CTkImage(globe_img,size=(30, 30))
 
+        copy_filepath = os.path.join(project_directory, "images","copying.png")
+        copy_img = Image.open(copy_filepath)
+        copy = ctk.CTkImage(copy_img,size=(30, 30))
+
+        # create widgets
         self.segbutton = SegButton(ratio1=0.6,ratio2=0.4,text1='Query App',
                                    text2='Show Apps', 
                                    master=self)
@@ -70,24 +72,36 @@ class QuerryData(ctk.CTkFrame):
                                         image = globe,
                                         hover=False,
                                         command = self.open_website)
+        self.copy_btn1 = ctk.CTkButton(master=self,
+                                        height = 40,width = 40,
+                                        text="",
+                                        fg_color='transparent',
+                                        image = copy,
+                                        hover=False,
+                                        command = self.copy_username)                      
         
+        self.copy_btn2 = ctk.CTkButton(master=self,
+                                        height = 40,width = 40,
+                                        text="",
+                                        fg_color='transparent',
+                                        image = copy,
+                                        hover=False,
+                                        command = self.copy_password)
+        
+        # place widgets
         self.titlelabel.place(anchor = 'n' , relx = 0.5 , rely = 0.03)
-
         self.application_entry.place(anchor='n',relx = 0.5,rely = 0.15)
-
         self.globe_btn.place(anchor = 'n' , relx = 0.9 , rely = 0.15)
-
         self.username_entry.place(anchor='n',relx = 0.5,rely = 0.3)
-
+        self.copy_btn1.place(anchor = 'n' , relx = 0.9 , rely = 0.3)
         self.password_entry.place(anchor='n',relx = 0.5,rely = 0.45)
-
+        self.copy_btn2.place(anchor = 'n' , relx = 0.9 , rely = 0.45)
         self.email_entry.place(anchor='n',relx = 0.5,rely = 0.6)
-
         self.segbutton.place(anchor='n',relx = 0.5,rely = 0.75)
-
         self.message.place(anchor='n',relx = 0.5,rely = 0.9)
 
-    def reset(self):    
+    def reset_entries(self):
+        self.message.configure(text='')  
         w2 = self.username_entry.get()
         self.username_entry.delete(0,(len(w2)))
 
@@ -97,9 +111,8 @@ class QuerryData(ctk.CTkFrame):
         w4 = self.email_entry.get()
         self.email_entry.delete(0,(len(w4)))
 
-    def reset2(self):
+    def switch_frame(self):
         self.message.configure(text='')
-
         w1 = self.application_entry.get()
         self.application_entry.delete(0,(len(w1)))
 
@@ -128,8 +141,8 @@ class QuerryData(ctk.CTkFrame):
                 validation =  False
 
         if validation == False:
+            self.reset_entries()
             self.message.configure(text='Unable to query app')
-            self.reset()
 
         return validation
     
@@ -141,6 +154,13 @@ class QuerryData(ctk.CTkFrame):
             website = Website(app_name=app_name)
             website.open()
 
+    def copy_username(self):
+        username = self.username_entry.get()
+        pyperclip.copy(username)
+
+    def copy_password(self):
+        password = self.password_entry.get()
+        pyperclip.copy(password)
     
 
 

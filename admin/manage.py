@@ -15,42 +15,36 @@ class ManageUser(ctk.CTkToplevel):
 
         self.password = password
         self.username = username
-
         self.flag = ''
-
         self.attributes("-topmost", True)
-
         self.title('Manage Account')
 
         self.resizable(False, False)
         self.after(150, lambda: self.focus()) 
 
         project_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-        pass_filepath = os.path.join(project_directory, "assets","padlock.png")
+        # import images
+        pass_filepath = os.path.join(project_directory, "images","padlock.png")
         pass_img = Image.open(pass_filepath)
         padlock = ctk.CTkImage(pass_img,size=(30, 30))
 
-        email_filepath = os.path.join(project_directory, "assets","email.png")
+        email_filepath = os.path.join(project_directory, "images","email.png")
         email_img = Image.open(email_filepath)
         email = ctk.CTkImage(email_img,size=(30, 30))
 
-        info_filepath = os.path.join(project_directory, "assets","info.png")
+        info_filepath = os.path.join(project_directory, "images","info.png")
         info_img = Image.open(info_filepath)
         information = ctk.CTkImage(info_img,size=(30, 30))
         #-------------------------------------------------------------
-
         self.frame1 = ctk.CTkFrame(master=self,width = 80,height=500,
                                    corner_radius=0 )
 
         self.frame2 = ctk.CTkFrame(master=self,width = 420,height=500,
                                    corner_radius=0,fg_color ="#0D0D0D")
 
-
         self.frame1.place(relx=0, rely=0 ,anchor = 'nw')
 
         self.frame2.place(relx=1, rely=0 ,anchor = 'ne')
-
         #-------------------------------------------------------------
         self.change_password = ctk.CTkButton(master=self.frame1,width=80,height=60,
                                              image = padlock,
@@ -76,13 +70,11 @@ class ManageUser(ctk.CTkToplevel):
                                             corner_radius=0,
                                             command = self.info_command)
         #-------------------------------------------------------------
-
         self.change_password.place(relx=0.5,rely=0,anchor='n')
 
         self.change_email.place(relx=0.5,rely=0.15,anchor='n')
 
         self.info.place(relx=0.5,rely=0.3,anchor='n')
-
         #-------------------------------------------------------------
         self.password_frame = Passframe(master=self.frame2,
                                         password=self.password,
@@ -101,7 +93,6 @@ class ManageUser(ctk.CTkToplevel):
         self.titlelabel2.place(relx = 0.5 , rely = 0, anchor='n' )
 
         #-------------------------------------------------------------
-        
         self.info_frame = ctk.CTkFrame(master=self.frame2,width =420,
                                     height=600,corner_radius=0,
                                     fg_color='transparent')
@@ -112,7 +103,6 @@ class ManageUser(ctk.CTkToplevel):
                                         text = 'User Info')
         
         self.titlelabel3.place(relx = 0.5 , rely = 0, anchor='n' )
-
         #-------------------------------------------------------------
 
     def change_pass_command(self):
