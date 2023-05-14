@@ -1,5 +1,6 @@
 import hashlib
 import random
+import string
 
 def hash(password):
     parameter = 100_000
@@ -11,26 +12,8 @@ def hash(password):
     return s.encode('utf-8')
 
 def create_salt(length):
-    ints =  [0,1,2,3,4,5,6,7,8,9]
-    lower = ['a','b','c','d','e','f','g','h','i','j','k','l',
-            'm','n','o','p','q','r','s','t','u','v','w','x','y','z']
-    upper = [letter.upper() for letter in lower]
-    special = ['@','#','.','+','_','-','!']
-
-    string = []
-    for _ in range(length):
-        choice = random.randint(0,3)
-        if choice == 0:
-            string.append(str(random.choice(ints)))
-        if choice == 1:
-            string.append(random.choice(lower))
-        if choice == 2:
-            string.append(random.choice(upper))
-        if choice == 3:
-            string.append(random.choice(special))
-
-    temp = [rand for rand in string]
-    salt = ''.join(temp)
+    characters = string.ascii_letters + string.digits + string.punctuation
+    salt = ''.join(random.choice(characters) for _ in range(length))
     return salt
 
 def create_pepper():
