@@ -2,18 +2,13 @@ import hashlib
 import random
 
 def hash(password):
-    parameter = 1000
-    def inner(str):
-        hashed = hashlib.sha256(str.encode())
-        result = hashed.hexdigest()
-        return result
-    
-    string = inner(password)
+    parameter = 100_000
+    s = hashlib.sha256(password.encode()).hexdigest()
+    h = hashlib.sha256()
     for _ in range(parameter):
-        current = string
-        hash = inner(current)
-        string += hash
-    return hash.encode('utf-8')
+        h.update(s.encode())
+        s = h.hexdigest()
+    return s.encode('utf-8')
 
 def create_salt(length):
     ints =  [0,1,2,3,4,5,6,7,8,9]
