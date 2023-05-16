@@ -1,5 +1,8 @@
 import customtkinter as ctk
-
+import string
+import random
+from PIL import Image
+import os
 
 class AddData(ctk.CTkFrame):
 
@@ -18,10 +21,13 @@ class AddData(ctk.CTkFrame):
                          **kwargs)
         
         ctk.set_default_color_theme("dark-blue")
-        '''
-        self.configure(border_color = '#251351')
-        self.configure(border_width=3)
-        '''
+       
+        project_directory = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        # import images
+        dice_filepath = os.path.join(project_directory, "images","dice.png")
+        dice_img = Image.open(dice_filepath)
+        dice = ctk.CTkImage(dice_img,size=(30, 30))
+
         self.titlelabel = ctk.CTkLabel(master=self,
                                         text = 'Add App', 
                                         font=("Helvetica",36))
@@ -55,19 +61,22 @@ class AddData(ctk.CTkFrame):
         self.message = ctk.CTkLabel(master=self ,
                                     text = '', 
                                     font=("Roboto",18))
+        
+        self.password_btn = ctk.CTkButton(master=self,
+                                    height = 40,width = 40,
+                                    text="",
+                                    fg_color='transparent',
+                                    image = dice,
+                                    hover=False,
+                                    command = self.generate_password)     
 
         self.titlelabel.place(anchor = 'n' , relx = 0.5 , rely = 0.03)
-
         self.application_entry.place(anchor='n',relx = 0.5,rely = 0.15)
-
         self.username_entry.place(anchor='n',relx = 0.5,rely = 0.3)
-
         self.password_entry.place(anchor='n',relx = 0.5,rely = 0.45)
-
+        self.password_btn.place(anchor='n',relx = 0.9,rely = 0.45)
         self.email_entry.place(anchor='n',relx = 0.5,rely = 0.6)
-
         self.add_btn.place(anchor='n',relx = 0.5,rely = 0.75)
-
         self.message.place(anchor='n',relx = 0.5,rely = 0.9)
 
 
@@ -119,3 +128,18 @@ class AddData(ctk.CTkFrame):
             self.message.configure(text='App added succesfully')
 
         return validation
+
+
+    def generate_password(self):
+        w = self.password_entry.get()
+        self.password_entry.delete(0,(len(w)))
+        def generate(length):
+            characters = string.ascii_letters + string.digits + "!+-#"
+            password = ''.join(random.choice(characters) for _ in range(length))
+            return password
+        
+        generated_password = generate(10)
+        self.password_entry.insert(0,generated_password)
+    
+
+
